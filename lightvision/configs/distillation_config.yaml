@@ -1,0 +1,43 @@
+# LightVision Knowledge Distillation Configuration
+
+project_name: "lightvision"
+experiment_name: "distillation"
+seed: 42
+
+# Teacher Model
+teacher:
+  model_path: "outputs/models/teacher_best.pth"
+  architecture: "resnet50"
+  temperature: 5.0  # Temperature for soft targets
+
+# Student Model
+student:
+  architecture: "mobilenetv2"
+  pretrained: true
+  num_classes: 10
+
+# Distillation Configuration
+distillation:
+  temperature: 5.0  # Soft target temperature
+  alpha: 0.5  # Weight for soft loss (1-alpha for hard loss)
+  loss_type: "kl_div"  # kl_div or mse
+
+# Training Configuration
+training:
+  batch_size: 32
+  num_epochs: 100
+  learning_rate: 1e-4
+  weight_decay: 1e-4
+  optimizer: "adamw"
+  scheduler: "cosine"
+  warmup_epochs: 5
+
+# Dataset (same as baseline)
+dataset:
+  name: "eurosat"
+  data_dir: "data/raw"
+  processed_dir: "data/processed"
+  split_seed: 42
+  image_size: 224
+  num_classes: 10
+

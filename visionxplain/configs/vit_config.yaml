@@ -1,0 +1,58 @@
+# VisionXplain Vision Transformer Configuration
+
+project_name: "visionxplain"
+experiment_name: "vit"
+seed: 42
+
+# Dataset Configuration
+dataset:
+  name: "chest_xray"  # Adjust based on selected task
+  data_dir: "data/raw"
+  processed_dir: "data/processed"
+  split_seed: 42
+  train_split: 0.7
+  val_split: 0.15
+  test_split: 0.15
+  image_size: 224
+  num_classes: 2  # Binary classification (adjust as needed)
+
+# Vision Transformer Configuration
+model:
+  architecture: "vit_base"  # vit_base or vit_large
+  patch_size: 16
+  num_layers: 12
+  num_heads: 12
+  hidden_dim: 768
+  mlp_dim: 3072
+  dropout: 0.1
+  pretrained: true  # Pre-trained on ImageNet if available
+
+# Training Configuration
+training:
+  batch_size: 32
+  num_epochs: 100
+  learning_rate: 1e-4
+  weight_decay: 1e-4
+  optimizer: "adamw"
+  scheduler: "cosine"
+  warmup_epochs: 5
+  early_stopping:
+    patience: 10
+    monitor: "val_accuracy"
+
+# Data Augmentation
+augmentation:
+  train:
+    random_crop: true
+    horizontal_flip: true
+    color_jitter: 0.2
+    rotation: 10
+  val:
+    center_crop: true
+
+# Explainability Configuration
+explainability:
+  methods: ["gradcam", "attention", "lrp"]
+  save_explanations: true
+  explanation_dir: "outputs/explanations"
+

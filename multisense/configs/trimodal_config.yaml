@@ -1,0 +1,42 @@
+# MultiSense Trimodal Configuration
+
+project_name: "multisense"
+experiment_name: "trimodal"
+seed: 42
+
+# All Modalities
+modalities: ["audio", "video", "text"]
+
+# Fusion Strategy
+fusion:
+  strategy: "hybrid"  # early, late, hybrid, or attention
+  hierarchical: true  # Pairwise then combined
+  attention_heads: 8
+  attention_dim: 256
+
+# Dataset Configuration
+dataset:
+  name: "crema_d"
+  data_dir: "data/raw"
+  processed_dir: "data/processed"
+  split_seed: 42
+  num_classes: 7
+
+# Model Configuration
+model:
+  audio_encoder: "cnn_lstm"
+  video_encoder: "resnet50"
+  text_encoder: "bert"
+  fusion_dim: 768
+  hidden_dim: 256
+  dropout: 0.3
+
+# Training Configuration
+training:
+  batch_size: 4  # Even smaller for trimodal
+  num_epochs: 100
+  learning_rate: 1e-4
+  weight_decay: 1e-4
+  optimizer: "adamw"
+  scheduler: "cosine"
+

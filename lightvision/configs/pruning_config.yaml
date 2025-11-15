@@ -1,0 +1,38 @@
+# LightVision Pruning Configuration
+
+project_name: "lightvision"
+experiment_name: "pruning"
+seed: 42
+
+# Model Configuration
+model:
+  model_path: "outputs/models/student_best.pth"
+  architecture: "mobilenetv2"
+  num_classes: 10
+
+# Pruning Configuration
+pruning:
+  type: "structured"  # structured or unstructured
+  method: "magnitude"  # magnitude, gradient, or random
+  target_sparsity: 0.5  # 50% sparsity
+  schedule: "iterative"  # iterative or one_shot
+  pruning_steps: 5
+  fine_tune_epochs: 10  # Epochs to fine-tune after each pruning step
+
+# Training Configuration
+training:
+  batch_size: 32
+  learning_rate: 1e-5  # Lower for fine-tuning
+  weight_decay: 1e-4
+  optimizer: "adamw"
+  scheduler: "cosine"
+
+# Dataset
+dataset:
+  name: "eurosat"
+  data_dir: "data/raw"
+  processed_dir: "data/processed"
+  split_seed: 42
+  image_size: 224
+  num_classes: 10
+

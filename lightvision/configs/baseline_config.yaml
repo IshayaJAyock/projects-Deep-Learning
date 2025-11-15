@@ -1,0 +1,62 @@
+# LightVision Baseline Configuration
+# Teacher and Student Model Training
+
+project_name: "lightvision"
+experiment_name: "baseline"
+seed: 42
+
+# Dataset Configuration
+dataset:
+  name: "eurosat"  # or "trashnet"
+  data_dir: "data/raw"
+  processed_dir: "data/processed"
+  split_seed: 42
+  train_split: 0.7
+  val_split: 0.15
+  test_split: 0.15
+  image_size: 224
+  num_classes: 10  # Adjust based on dataset
+
+# Model Configuration
+model:
+  type: "teacher"  # or "student"
+  architecture: "resnet50"  # teacher: resnet50/resnet101/efficientnet_b3, student: mobilenetv2/mobilenetv3/shufflenetv2
+  pretrained: true
+  num_classes: 10
+
+# Training Configuration
+training:
+  batch_size: 32
+  num_epochs: 100
+  learning_rate: 1e-4
+  weight_decay: 1e-4
+  optimizer: "adamw"
+  scheduler: "cosine"
+  warmup_epochs: 5
+  early_stopping:
+    patience: 10
+    monitor: "val_accuracy"
+  
+# Data Augmentation
+augmentation:
+  train:
+    random_crop: true
+    horizontal_flip: true
+    color_jitter: 0.4
+    rotation: 15
+  val:
+    center_crop: true
+
+# Output Configuration
+output:
+  model_dir: "outputs/models"
+  log_dir: "outputs/logs"
+  plot_dir: "outputs/plots"
+  checkpoint_dir: "outputs/models/checkpoints"
+
+# Reproducibility
+reproducibility:
+  deterministic: true
+  cudnn_deterministic: true
+  cudnn_benchmark: false
+

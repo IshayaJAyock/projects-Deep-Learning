@@ -1,0 +1,40 @@
+# MultiSense Bimodal Configuration
+
+project_name: "multisense"
+experiment_name: "bimodal"
+seed: 42
+
+# Modality Selection
+modalities: ["audio", "video"]  # or ["audio", "text"] or ["video", "text"]
+
+# Fusion Strategy
+fusion:
+  strategy: "late"  # early, late, or attention
+  attention_heads: 8
+  attention_dim: 256
+
+# Dataset Configuration
+dataset:
+  name: "crema_d"
+  data_dir: "data/raw"
+  processed_dir: "data/processed"
+  split_seed: 42
+  num_classes: 7
+
+# Model Configuration
+model:
+  audio_encoder: "cnn_lstm"
+  video_encoder: "resnet50"
+  fusion_dim: 512
+  hidden_dim: 256
+  dropout: 0.3
+
+# Training Configuration
+training:
+  batch_size: 8  # Smaller due to multimodal data
+  num_epochs: 100
+  learning_rate: 1e-4
+  weight_decay: 1e-4
+  optimizer: "adamw"
+  scheduler: "cosine"
+

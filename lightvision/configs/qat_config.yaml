@@ -1,0 +1,37 @@
+# LightVision Quantization-Aware Training Configuration
+
+project_name: "lightvision"
+experiment_name: "qat"
+seed: 42
+
+# Model Configuration
+model:
+  model_path: "outputs/models/student_best.pth"
+  architecture: "mobilenetv2"
+  num_classes: 10
+
+# Quantization Configuration
+quantization:
+  bits: 8
+  scheme: "symmetric"  # symmetric or asymmetric
+  per_channel: true  # Per-channel quantization for weights
+  calibration_samples: 1000
+
+# Training Configuration
+training:
+  batch_size: 32
+  num_epochs: 50  # Fewer epochs for fine-tuning
+  learning_rate: 1e-5  # Lower learning rate
+  weight_decay: 1e-4
+  optimizer: "adamw"
+  scheduler: "cosine"
+
+# Dataset
+dataset:
+  name: "eurosat"
+  data_dir: "data/raw"
+  processed_dir: "data/processed"
+  split_seed: 42
+  image_size: 224
+  num_classes: 10
+

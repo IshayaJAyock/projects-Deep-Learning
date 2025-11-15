@@ -1,0 +1,60 @@
+# MultiSense Unimodal Configuration
+
+project_name: "multisense"
+experiment_name: "unimodal"
+seed: 42
+
+# Modality Selection
+modality: "audio"  # audio, video, or text
+
+# Dataset Configuration
+dataset:
+  name: "crema_d"  # crema_d, ravdess, or iemocap
+  data_dir: "data/raw"
+  processed_dir: "data/processed"
+  split_seed: 42
+  train_split: 0.7
+  val_split: 0.15
+  test_split: 0.15
+  num_classes: 7  # 6 Ekman emotions + neutral
+
+# Audio Configuration (if modality is audio)
+audio:
+  sample_rate: 16000
+  n_mels: 128
+  n_fft: 2048
+  hop_length: 512
+  feature_type: "spectrogram"  # spectrogram, mfcc, wav2vec2
+
+# Video Configuration (if modality is video)
+video:
+  fps: 10
+  frame_size: 224
+  num_frames: 30
+  feature_type: "resnet50"  # resnet50, efficientnet, i3d
+
+# Text Configuration (if modality is text)
+text:
+  max_length: 128
+  feature_type: "bert"  # bert, roberta, word2vec
+  model_name: "bert-base-uncased"
+
+# Model Configuration
+model:
+  architecture: "cnn_lstm"  # Adjust based on modality
+  hidden_dim: 256
+  num_layers: 2
+  dropout: 0.3
+
+# Training Configuration
+training:
+  batch_size: 16
+  num_epochs: 100
+  learning_rate: 1e-4
+  weight_decay: 1e-4
+  optimizer: "adamw"
+  scheduler: "cosine"
+  early_stopping:
+    patience: 10
+    monitor: "val_accuracy"
+
